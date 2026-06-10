@@ -8,11 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
     "core-js": "^3.8.3",
+    "tailwindcss": "^4.3.0",
     "vue": "2.7.16",
     "vue-router": "^3.5.1"
   },
   "devDependencies": {
+    "@types/node": "^25.9.2",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
