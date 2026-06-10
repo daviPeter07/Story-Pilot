@@ -99,6 +99,17 @@ Antes de rodar o projeto, é necessário ter instalado:
 * PNPM
 * Git
 
+### Atenção com a versão do PHP
+
+O backend usa **Laravel 5.6** e exige **PHP 7.1.3+**.
+
+Por isso, para rodar comandos como `php artisan` e `composer install`, você precisa usar uma destas opções:
+
+* subir o ambiente Docker do projeto, que já usa uma versão compatível do PHP
+* ou ter **PHP 7.1.3+** instalado localmente na sua máquina
+
+Se você tentar executar esses comandos com uma versão mais nova e incompatível do PHP da máquina, o projeto pode apresentar erros de bootstrap, classes ou rotas.
+
 ## Como rodar o projeto
 
 ### 1. Clone o repositório
@@ -121,6 +132,8 @@ cd backend
 ```
 
 ### 4. Instale as dependências do Laravel
+
+Se for rodar esse passo fora do Docker, confirme antes que sua máquina está com **PHP 7.1.3+**.
 
 ```bash
 composer install
