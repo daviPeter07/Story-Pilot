@@ -1,65 +1,125 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# StoryPilot Backend
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Backend API do **StoryPilot**, desenvolvido com **Laravel 5.6** e **PHP 7.2**.
 
-## About Laravel
+O backend é responsável por autenticação, gerenciamento de usuários, conexão com a Meta/Instagram, criação de
+publicações, agendamento e execução de posts e stories.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## Tecnologias
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* PHP 7.2
+* Laravel 5.6
+* Composer 2
+* Docker
+* MySQL
+* API REST
+* Laravel Queue
+* Laravel Scheduler
+* Meta Graph API
+* Instagram Graph API
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+## Requisitos
 
-## Learning Laravel
+Antes de começar, é necessário ter instalado:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+* Docker
+* Docker Compose
+* Composer
+* Git
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+## Instalação
 
-## Laravel Sponsors
+Acesse a pasta do backend:
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+```bash
+cd backend
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
+Instale as dependências:
 
-## Contributing
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Crie o arquivo de ambiente:
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Gere a chave da aplicação:
 
-## License
+```bash
+php artisan key:generate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Execute as migrations:
+
+```bash
+php artisan migrate
+```
+
+## Executando o projeto
+
+A partir da raiz do projeto, suba os containers:
+
+```bash
+docker compose up -d
+```
+
+A API ficará disponível em:
+
+```txt
+http://localhost:8000
+```
+
+## Estrutura básica
+
+```txt
+app/
+  Actions/        Casos de uso da aplicação
+  Exceptions/     Exceções de domínio e integração
+  Http/           Controllers, middlewares e requests
+  Jobs/           Processos executados em background
+  Models/         Models Eloquent
+  Policies/       Regras de autorização
+  Providers/      Service providers e bindings
+  Repositories/   Camada de acesso a dados
+  Services/       Serviços de domínio e integrações externas
+  Support/        Constantes e helpers do domínio
+  Traits/         Comportamentos reutilizáveis
+```
+
+## Fluxo principal
+
+```txt
+Usuário autentica na aplicação
+  ↓
+Usuário conecta uma conta do Instagram via Meta
+  ↓
+Backend obtém e salva a conta Instagram conectada
+  ↓
+Usuário cria uma publicação do tipo post ou story
+  ↓
+Usuário escolhe publicar agora ou agendar
+  ↓
+Backend salva os dados da publicação
+  ↓
+Laravel Queue/Scheduler processa a publicação
+  ↓
+Backend publica o conteúdo usando a API oficial da Meta
+```
+
+## Documentação
+
+Documentações mais detalhadas sobre funcionalidades, padrões de código, arquitetura, integrações, padrões de API e
+fluxos internos devem ficar na pasta `docs/`.
+
+Documentos disponíveis:
+
+* [Funcionalidades do sistema](./docs/FEATURES.md)
+* [Regras de código](./docs/CODE_GUIDELINES.md)
+
+## Status
+
+Projeto em desenvolvimento.

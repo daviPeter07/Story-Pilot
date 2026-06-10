@@ -8,6 +8,6 @@ class TesteController extends Controller
 {
     public function index()
     {
-        return "BOSTA";
+       //
     }
 }
